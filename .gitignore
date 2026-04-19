@@ -1,0 +1,50 @@
+# Criar arquivo .gitignore na raiz
+echo "# Dependências
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ambiente
+.env
+.env.local
+.env.production
+.env.development
+
+# Builds
+dist/
+build/
+.next/
+out/
+
+# Bancos de dados
+*.sqlite
+*.sqlite3
+*.db
+database.sqlite
+
+# Uploads e temporários
+uploads/
+temp/
+tmp/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Railway
+.railway/
+
+# Vercel
+.vercel/
+
+# Sistema
+*.pid
+*.seed
+*.pid.lock" > .gitignore
