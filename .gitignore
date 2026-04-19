@@ -48,3 +48,20 @@ Thumbs.db
 *.pid
 *.seed
 *.pid.lock" > .gitignore
+
+# Imagens e mídia
+*.jpg
+*.jpeg
+*.gif
+*.webp
+
+# Backups
+*_copy.*
+*.backup
+*.bak
+
+# Uploads do servidor
+server/uploads/
+server/public/gallery/images/
+server/public/gallery/thumbnails/
+" >> .gitignore
