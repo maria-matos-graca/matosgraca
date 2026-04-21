@@ -3,7 +3,7 @@ import useFetch from "./UseFetch";
 import { Link } from 'react-router-dom';
 
 const Blog = ({ English }) => {
-    const { data: blogs, isPending, error } = useFetch('/api/blog');
+    const { data: blogs, isPending, error } = useFetch('/blog');
     
     console.log('Dados recebidos:', blogs);
     console.log('Carregando:', isPending);

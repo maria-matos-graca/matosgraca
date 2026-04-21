@@ -15,7 +15,6 @@ const Escrever = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Verifica se o usuário está autenticado
     if (!authService.isAuthenticated()) {
       navigate('/Login');
     } else {
@@ -23,7 +22,6 @@ const Escrever = () => {
     }
   }, [navigate]);
 
-  // Buscar todos os posts
   const fetchPosts = async () => {
     setLoadingPosts(true);
     try {
@@ -144,7 +142,6 @@ const Escrever = () => {
         </button>
       </form>
 
-      {/* Lista de posts existentes */}
       <div style={styles.postsSection}>
         <h3 style={styles.postsTitle}>Publicações Existentes</h3>
         

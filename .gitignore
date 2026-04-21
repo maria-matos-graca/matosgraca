@@ -54,6 +54,8 @@ Thumbs.db
 *.jpeg
 *.gif
 *.webp
+*.png
+*.svg
 
 # Backups
 *_copy.*

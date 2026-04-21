@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon index.js",
-    "start": "NODE_ENV=production node index.js",
+    "start": "node index.js",
     "dev:win": "set NODE_ENV=development && nodemon index.js",
     "start:win": "set NODE_ENV=production && node index.js",
     "db:setup": "node scripts/setup-db.js",
@@ -26,9 +26,7 @@
     "pg-hstore": "^2.3.4",
     "resend": "^6.12.0",
     "sequelize": "^6.37.8",
-    "sharp": "^0.34.5",
-    "sqlite": "^5.1.1",
-    "sqlite3": "^6.0.1"
+    "sharp": "^0.34.5"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

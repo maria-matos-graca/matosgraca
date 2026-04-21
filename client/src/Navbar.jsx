@@ -8,6 +8,7 @@ const Navbar = ({English}) => {
                     <li><Link to="/about">About</Link></li>
                     <li><Link to="/gallerypage">Gallery</Link></li>
                     <li><Link to="/contact">Contact me</Link></li>
+                     <li><Link to="/blog">Blog</Link></li>
                 </ul>
 
                 
@@ -20,6 +21,7 @@ const Navbar = ({English}) => {
                     <li><Link to="/about">Sobre</Link></li>
                     <li><Link to="/gallerypage">Galeria</Link></li>
                     <li><Link to="/contact">Contacta-me</Link></li>
+                    <li><Link to="/blog">Blog</Link></li>
                 </ul>
         </nav>
     )

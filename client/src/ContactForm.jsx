@@ -112,7 +112,7 @@ export default function ContactForm({English}) {
             <input
                 type="text"
                 name="nome"
-                placeholder="Seu Nome"
+                placeholder="O teu Nome"
                 value={formData.name}
                 onChange={handleChange}
                 required
@@ -120,14 +120,14 @@ export default function ContactForm({English}) {
             <input
                 type="email"
                 name="email"
-                placeholder="O seu Email"
+                placeholder="O teu Email"
                 value={formData.email}
                 onChange={handleChange}
                 required
             />
             <textarea
                 name="message"
-                placeholder="Sua Mensagem"
+                placeholder="A tua Mensagem"
                 value={formData.message}
                 onChange={handleChange}
                 required

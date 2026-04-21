@@ -1,4 +1,9 @@
+/*Folha de estilos a ser arrumada em breve, peço desculpas pela confusão*/
+/*Stylesheet will soon be tidied up, sorry about the mess*/
+
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
+
+
 
 :root {
 	--raw-concrete: #d1d1d1;
@@ -429,6 +434,7 @@ h1 {
 }
 
 .project-grid {
+    position:relative;
     border-radius:15px;
 	display: grid;
 	grid-template-columns: repeat(12, 1fr);
@@ -461,11 +467,7 @@ h1 {
     scrollbar-color: #c1c1c1 #f1f1f1;
      border: 4px solid white;
     border-style: groove;
-}
-.project-card-wide{
-
-    margin-top: 3 rem;
-
+    border-top: 3rem;
 }
 
 .selected-post-content{
@@ -651,10 +653,9 @@ button:active {
 }
 
 a {
-	color: white;
-	font-size: x-large;
+	color: var(--void-black);
+	font-size: medium;
 	text-decoration: none;
-	font-weight: 900;
 	text-transform: lowercase;
 	position: relative;
 }
@@ -679,7 +680,7 @@ img {
 .gallery-container {
     padding: 2rem;
     max-width: 1400px;
-    margin: 0 auto;
+    margin-top: 3rem;
     width: 100%;
     box-sizing: border-box;
 }
@@ -920,6 +921,7 @@ img {
 
 @media (max-width: 768px) {
     .gallery-container {
+        margin-top:3rem;
         padding: 1rem;
     }
     
@@ -1043,10 +1045,9 @@ img {
     }
 }
 
-
 .languageToggle, .moon, .astro_quote, .planet-shade, .nav, .project-card-gallery, .project-card-wide, .project-card, .project-single-card, .project-grid{
 
-    scale: 0.9;
+    scale: 0.88;
 }
 
 
@@ -1062,9 +1063,9 @@ img {
     font-size:larger;
 }
     
-    body {
+   /* body {
         padding-top: 0;
-    }
+    }*/
     
     /* Barra superior com hamburger, citação e toggle */
     .mobile-header {
@@ -1079,7 +1080,7 @@ img {
         justify-content: space-between;
         align-items: center;
         padding: 0 16px;
-        height: 60px;
+        height: 70px;
         box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         gap: 10px;
     }
@@ -1291,9 +1292,24 @@ img {
         box-sizing: border-box;
         position: relative;
         z-index: 2;
+        overflow:hidden;
     }
   
     
+    .project-card-wide{
+        height: var(--altura);
+        padding: 20px;
+        margin-top:50px;
+        margin-bottom:20px;
+        box-sizing: border-box;
+        border-radius: 25px;
+        background-color: var(--papel-vegetal);
+        color:black;
+        margin-left:25px;
+        margin-right:25px;
+
+    }
+
     .project-card, .project-card-gallery, .project-single-card {
         grid-column: span 12;
         height: var(--altura);
@@ -1307,11 +1323,39 @@ img {
         margin-left:25px;
         margin-right:25px;
     }
-      .project-card{
+/*      .project-card{
             margin-top:unset;
+    }*/
+   
+    .project-card {
+        width: calc(100% - 40px) !important;
+        margin: 20px !important;
+        padding: 20px !important;
+        box-sizing: border-box !important;
+        display: block !important;
+        position: relative !important;
+        left: 0 !important;
+        right: 0 !important;
     }
-   
-   
+    
+    /* Garantir que o conteúdo do card seja clicável */
+    .blog-list-item {
+        cursor: pointer;
+        z-index: 10;
+        position: relative;
+    }
+    
+    /* Garantir que o card selecionado apareça */
+    .project-card:last-child.active {
+        display: block !important;
+        position: relative !important;
+        z-index: 20 !important;
+    }
+    
+    /* Esconder a lista quando o post está aberto */
+    .project-card:first-child.hide {
+        display: none !important;
+    }
     /* Controle de visibilidade dos cards */
     .project-card:first-child {
         display: block;
@@ -1321,12 +1365,23 @@ img {
         display: none;
     }
     
-    .project-card:last-child.active {
-        display: block;
+  .project-card:last-child.active {
+        display: block !important;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1000;
+        background: white;
+        overflow-y: auto;
+        padding: 20px;
+        margin: 0;
+        border-radius: 0;
     }
     
     .project-card:first-child.hide {
-        display: none;
+        display: none !important;
     }
     
     /* Botão voltar */
@@ -1636,4 +1691,46 @@ img {
         text-align: center;
     }
 }
+.text-with-image {
+    overflow: auto;
+    width: 100%;
+}
 
+.inline-profile-photo {
+    float: left;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    shape-outside: circle(50%);
+    margin: 1rem 1rem 1rem 1rem;
+    shape-margin: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.inline-profile-photo:hover {
+    transform: scale(1.02);
+}
+
+@media (max-width: 768px) {
+    .inline-profile-photo {
+        float: none;
+        display: block;
+        margin: 0 auto 1.5rem auto;
+        shape-outside: none;
+        width: 150px;
+        height: 150px;
+    }
+    
+    .text-with-image {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .inline-profile-photo {
+        width: 120px;
+        height: 120px;
+    }
+}

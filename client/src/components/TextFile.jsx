@@ -37,8 +37,8 @@ const TextFile = ({ filePath }) => {
         loadContent();
     }, [filePath]);
 
-    if (loading) return <div className="loading">📖 Carregando...</div>;
-    if (error) return <div className="error">❌ {error}</div>;
+    if (loading) return <div className="loading">A carregar...</div>;
+    if (error) return <div className="error">Erro: {error}</div>;
     
     return (
         <ReactMarkdown remarkPlugins={[remarkGfm]}>

@@ -27,7 +27,7 @@ const storage = multer.diskStorage({
             
             ensureDir(uploadPath);
             
-            console.log('📁 Upload destination:', uploadPath);
+            console.log('Upload destination:', uploadPath);
             cb(null, uploadPath);
         } catch (error) {
             console.error('Error in destination:', error);
@@ -42,7 +42,7 @@ const storage = multer.diskStorage({
             
             req.uploadedFilename = filename;
             
-            console.log('📝 Generated filename:', filename);
+            console.log('Generated filename:', filename);
             cb(null, filename);
         } catch (error) {
             console.error('Error in filename:', error);
@@ -70,22 +70,13 @@ const upload = multer({
     fileFilter: fileFilter
 });
 
-// ============================================
-// ROTA DE TESTE
-// ============================================
 router.get('/test', (req, res) => {
     res.json({ message: 'Gallery routes are working!' });
 });
 
-// ============================================
-// ROTAS DE CATEGORIAS (DEVEM VIR PRIMEIRO)
-// ============================================
-
-// GET /api/gallery/categories - Listar todas as categorias únicas
 router.get('/categories', async (req, res) => {
     console.log('GET /categories - Fetching categories');
     try {
-        // Usando Sequelize para buscar categorias distintas
         const categories = await req.db.GalleryImage.findAll({
             attributes: [[req.db.Sequelize.fn('DISTINCT', req.db.Sequelize.col('category')), 'category']],
             where: {
@@ -98,7 +89,6 @@ router.get('/categories', async (req, res) => {
             .filter(cat => cat && cat.trim() !== '')
             .sort();
         
-        // Garantir que 'general' seja a primeira
         const sortedCategories = categoryList.sort((a, b) => {
             if (a === 'general') return -1;
             if (b === 'general') return 1;
@@ -119,7 +109,6 @@ router.get('/categories', async (req, res) => {
     }
 });
 
-// POST /api/gallery/categories - Adicionar nova categoria
 router.post('/categories', authenticateJWT, async (req, res) => {
     console.log('POST /categories - Body:', req.body);
     try {
@@ -135,14 +124,11 @@ router.post('/categories', authenticateJWT, async (req, res) => {
         const categoryName = name.trim().toLowerCase();
         console.log('Adding category:', categoryName);
         
-        // Verificar se a categoria já existe
+
         const existingCategory = await req.db.GalleryImage.findOne({
             where: { category: categoryName }
         });
-        
-        // Se existir pelo menos uma imagem com esta categoria, ela já existe
-        // Apenas retornamos sucesso, não precisamos criar uma tabela separada
-        
+         
         res.json({ 
             success: true, 
             category: categoryName,
@@ -156,8 +142,6 @@ router.post('/categories', authenticateJWT, async (req, res) => {
         });
     }
 });
-
-// DELETE /api/gallery/categories/:name - Remover categoria
 router.delete('/categories/:name', authenticateJWT, async (req, res) => {
     console.log('DELETE /categories/:name - Category:', req.params.name);
     try {
@@ -169,9 +153,7 @@ router.delete('/categories/:name', authenticateJWT, async (req, res) => {
                 error: 'Cannot delete "general" category' 
             });
         }
-        
-        // Mover todas as imagens desta categoria para 'general'
-        const [updatedCount] = await req.db.GalleryImage.update(
+         const [updatedCount] = await req.db.GalleryImage.update(
             { category: 'general' },
             { where: { category: name } }
         );
@@ -191,11 +173,6 @@ router.delete('/categories/:name', authenticateJWT, async (req, res) => {
     }
 });
 
-// ============================================
-// ROTAS PRINCIPAIS DA GALERIA
-// ============================================
-
-// GET /api/gallery - Listar imagens
 router.get('/', async (req, res) => {
     console.log('GET / - Fetching images, query:', req.query);
     try {
@@ -235,7 +212,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-// POST /api/gallery/upload - Upload de imagem
 router.post('/upload', authenticateJWT, upload.single('image'), async (req, res) => {
     console.log('=== UPLOAD ROUTE HIT ===');
     console.log('File:', req.file);
@@ -252,7 +228,7 @@ router.post('/upload', authenticateJWT, upload.single('image'), async (req, res)
         const month = String(new Date().getMonth() + 1).padStart(2, '0');
         const relativePath = `/gallery/images/${year}/${month}/${req.file.filename}`;
         
-        console.log('📂 Relative path:', relativePath);
+        console.log('Relative path:', relativePath);
         
         let metadata = {};
         try {
@@ -271,7 +247,7 @@ router.post('/upload', authenticateJWT, upload.single('image'), async (req, res)
             await sharp(req.file.path)
                 .resize(300, 300, { fit: 'cover' })
                 .toFile(thumbnailPath);
-            console.log('✅ Thumbnail created');
+            console.log('Thumbnail created');
         } catch (err) {
             console.warn('Could not create thumbnail:', err);
         }
@@ -309,7 +285,7 @@ router.post('/upload', authenticateJWT, upload.single('image'), async (req, res)
     }
 });
 
-// GET /api/gallery/:id - Buscar imagem por ID
+// GET /api/gallery/:id - imagem por ID
 router.get('/:id', async (req, res) => {
     try {
         const image = await req.db.GalleryImage.findByPk(req.params.id);
@@ -329,7 +305,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// PUT /api/gallery/:id - Atualizar imagem
+// PUT /api/gallery/:id - actualizar imagem
 router.put('/:id', authenticateJWT, async (req, res) => {
     try {
         const { alt_text, caption, description, category, featured } = req.body;
@@ -359,7 +335,7 @@ router.put('/:id', authenticateJWT, async (req, res) => {
     }
 });
 
-// PATCH /api/gallery/:id/category - Atualizar categoria de uma imagem
+// PATCH /api/gallery/:id/category - actualizar categoria de uma imagem
 router.patch('/:id/category', authenticateJWT, async (req, res) => {
     console.log('PATCH /:id/category - ID:', req.params.id);
     try {

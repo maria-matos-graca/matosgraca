@@ -4,22 +4,22 @@ Por isso, embora eu seja rotineira e goste de estrutura, também gosto de experi
 
 - Adoptar um rato.
 - Explorar uma gruta, mergulhar numa cascata, encontrar um corno de veado
-- Ler em alemão, francês e russo.
 - Cair com vários tipos de patins.
-- Jogar xadrez contra mim
+- Jogar xadrez contra mim e perder
 - Jogar bilhar imaginário com o pato Donald
 - Andar de burro. Tricotar um cachecol até meio.
 - Mergulhar em água fria.
 - Filmar um escaravelho.
 - Reparar canalização, estucar paredes
-- Fazer uma pintura a óleo de um pão.
+- Fazer pinturas a óleo de comidas
 - Escorregar e na neve.
-- Cozinhar chau min de frango, costurar à máquina, cerâmica
-- Programar e reparar hardware de computadores
-- Tocar violoncelo numa orquestra, escrever poesia
-- Escrever tese doutoral, enervar-me.
+- Cozinhar chau min de frango
+- Costurar uma necessaire à máquina
+- Fazer um pote de cerâmica
+- Reparar hardware de computadores e telemóveis
+- Tocar violoncelo numa orquestra
 - Pintar em vidro e fazer uma cerca de coelhos.
-- Fotografar ervas daninhas, aspirar teias de aranha
+- Fotografar ervas daninhas, salvar uma aranha
 
 A lista continua. Mas o que interessa é que continuo a fazer coisas novas e esquisitas.
 

@@ -13,7 +13,6 @@ const ImageCard = ({ image, onEdit, onDelete, English }) => {
         });
     };
 
-    // Handler para editar - previne propagação para não abrir modal ao clicar no botão
     const handleEditClick = (e) => {
         e.stopPropagation();
         if (onEdit) onEdit(image);
@@ -70,7 +69,6 @@ const ImageCard = ({ image, onEdit, onDelete, English }) => {
                     color: 'white'
                 }}
             >
-                {/* Informação da imagem */}
                 <div className="image-info">
                     {image.caption && (
                         <div style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: '4px' }}>
@@ -94,7 +92,6 @@ const ImageCard = ({ image, onEdit, onDelete, English }) => {
                     )}
                 </div>
                 
-                {/* Botões de acção */}
                 <div className="image-actions" style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
                     <button
                         onClick={handleEditClick}

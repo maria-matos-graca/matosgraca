@@ -1,28 +1,15 @@
-// backend/models/index.js
+// models/index.js
 import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Carregar .env baseado no ambiente
-if (process.env.NODE_ENV === 'production') {
-    dotenv.config({ path: '.env.production' });
-} else {
-    dotenv.config();
-}
-
 import initBlogPostModel from './blogpost.model.js';
 import initGalleryModel from './gallery.model.js';
 
-// Configuração do Sequelize baseada no ambiente
+dotenv.config();
+
 let sequelize;
 
-if (process.env.DB_DIALECT === 'postgres') {
-    // Configuração para PostgreSQL (produção)
-    console.log('🐘 Conectando ao PostgreSQL...');
+if (process.env.NODE_ENV === 'production' || process.env.DB_DIALECT === 'postgres') {
+    console.log('Ligando ao PostgreSQL (produção)...');
     sequelize = new Sequelize(
         process.env.DB_NAME,
         process.env.DB_USER,
@@ -33,39 +20,24 @@ if (process.env.DB_DIALECT === 'postgres') {
             dialect: 'postgres',
             logging: false,
             dialectOptions: {
-                ssl: process.env.NODE_ENV === 'production' ? {
+                ssl: {
                     require: true,
                     rejectUnauthorized: false
-                } : false
-            },
-            pool: {
-                max: 5,
-                min: 0,
-                acquire: 30000,
-                idle: 10000
+                }
             }
         }
     );
 } else {
-    // Configuração para SQLite (desenvolvimento)
-    console.log('📁 Conectando ao SQLite...');
+    console.log('Ligando ao SQLite (desenvolvimento)...');
     sequelize = new Sequelize({
         dialect: 'sqlite',
-        storage: process.env.DB_STORAGE || './database.sqlite',
-        logging: false,
-        pool: {
-            max: 1,
-            min: 0,
-            idle: 10000
-        }
+        storage: './database.sqlite',
+        logging: false
     });
 }
 
-// Inicializar modelos (sem Category)
-const GalleryImage = initGalleryModel(sequelize);
 const BlogPost = initBlogPostModel(sequelize);
-
-// Model User
+const GalleryImage = initGalleryModel(sequelize);
 const User = sequelize.define('User', {
     id: {
         type: Sequelize.UUID,
@@ -81,7 +53,9 @@ const User = sequelize.define('User', {
         type: Sequelize.STRING(255),
         unique: true,
         allowNull: false,
-        validate: { isEmail: true }
+        validate: {
+            isEmail: true
+        }
     },
     password_hash: {
         type: Sequelize.STRING,
@@ -97,56 +71,16 @@ const User = sequelize.define('User', {
     underscored: true,
     defaultScope: {
         attributes: { exclude: ['password_hash'] }
+    },
+    scopes: {
+        withPassword: {
+            attributes: { include: ['password_hash'] }
+        }
     }
 });
 
-// ============================================
-// ASSOCIAÇÕES
-// ============================================
-
-// Blog associations
 BlogPost.belongsTo(User, { foreignKey: 'author_id', as: 'author' });
 User.hasMany(BlogPost, { foreignKey: 'author_id', as: 'posts' });
-
-// ============================================
-// SINCRONIZAR TABELAS (APENAS EM DESENVOLVIMENTO)
-// ============================================
-const syncDatabase = async () => {
-    try {
-        if (process.env.NODE_ENV !== 'production') {
-            // Em desenvolvimento, sincroniza as tabelas
-            await sequelize.sync({ alter: true });
-            console.log('✅ Tabelas sincronizadas');
-            
-            // Criar admin padrão se não existir
-            const userCount = await User.count();
-            if (userCount === 0) {
-                const bcrypt = await import('bcryptjs');
-                await User.create({
-                    username: process.env.ADMIN_USER || 'admin',
-                    email: process.env.ADMIN_EMAIL || 'admin@blog.com',
-                    password_hash: await bcrypt.hash(process.env.ADMIN_PASSWORD || 'admin123', 10),
-                    role: 'admin'
-                });
-                console.log('✅ Admin padrão criado (admin/admin123)');
-            }
-        } else {
-            // Em produção, apenas verifica a conexão
-            await sequelize.authenticate();
-            console.log('✅ Conexão PostgreSQL verificada');
-        }
-    } catch (error) {
-        console.error('Erro na sincronização:', error);
-        throw error;
-    }
-};
-
-// Executar sincronização
-syncDatabase();
-
-// ============================================
-// OBJETO DB PARA EXPORTAR
-// ============================================
 const db = {
     sequelize,
     Sequelize,
@@ -154,5 +88,28 @@ const db = {
     BlogPost,
     GalleryImage
 };
+
+const syncDatabase = async () => {
+    if (process.env.NODE_ENV !== 'production') {
+        await sequelize.sync({ alter: true });
+        console.log('Database synced');
+        //criar admin se não existir
+        const adminCount = await User.count();
+        if (adminCount === 0) {
+            const bcrypt = await import('bcryptjs');
+            await User.create({
+                username: 'admin',
+                email: 'admin@blog.com',
+                password_hash: await bcrypt.hash('admin123', 10),
+                role: 'admin'
+            });
+            console.log('Admin created');
+        }
+    }
+};
+
+if (process.env.NODE_ENV !== 'production') {
+    syncDatabase().catch(console.error);
+}
 
 export default db;

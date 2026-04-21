@@ -33,7 +33,6 @@ function App() {
   
   return (
     <>
-      {/* Helmet Global - Configurações para todo o site */}
       <Helmet>
         <html lang={English ? "en" : "pt"} />
         <title>Matos Graça | Humanidades e Tecnologia</title>
@@ -154,7 +153,6 @@ function App() {
                   } 
                 />
                 
-                {/* Rota 404 */}
                 <Route path="*" element={<NotFound English={English} />} />
               </Routes>
             </div>

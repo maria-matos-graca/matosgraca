@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 const Home = ({English}) => {
     const [selectedPost, setSelectedPost] = useState(null);
+    const [isPostSelected, setIsPostSelected] = useState(selectedPost);
     const { data: blogs, isPending, error } = useFetch('/blog');
     
     const formatDate = (dateString) => {
@@ -19,13 +20,17 @@ const Home = ({English}) => {
     
     useEffect(() => {
         if (blogs && blogs.length > 0 && !selectedPost) {
-
             setSelectedPost(blogs[0]);
         }
     }, [blogs, selectedPost]);
     
     const handleSelectPost = (post) => {
         setSelectedPost(post);
+        setIsPostSelected(true);
+    };
+    
+    const handleBackToList = () => {
+        setIsPostSelected(false);
     };
     
     const blogListContent = (
@@ -53,7 +58,6 @@ const Home = ({English}) => {
         </div>
     );
     
-    // Título da segunda coluna com indicador de "Mais recente" se aplicável
     const postTitle = selectedPost ? (
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%'}}>
             <h3 style={{margin: 0}}>{selectedPost.title}</h3>
@@ -88,8 +92,7 @@ const Home = ({English}) => {
                     textDecoration: 'none'
                 }}
             >
-               
-              <div className="read-full-post"> {English ? 'Read full post →' : 'Ler publicação completa →'}</div> 
+                <div className="read-full-post" style={{color: "black"}} > {English ? 'Read full post →' : 'Ler publicação completa →'}</div> 
             </Link>
         </div>
     ) : (
@@ -107,7 +110,7 @@ const Home = ({English}) => {
     const blogContent = (
         <div>
             {selectedPostContent}
-            {<Link 
+            <Link 
                 to="/blog"
                 style={{
                     display: 'inline-block',
@@ -117,7 +120,7 @@ const Home = ({English}) => {
                 }}
             >
                 {English && blogs? 'Read more' : blogs? 'Ler mais' : ""}
-            </Link>}
+            </Link>
         </div>
     );
     
@@ -127,6 +130,8 @@ const Home = ({English}) => {
             content1={blogListContent}
             title2={postTitle}
             content2={blogContent}
+            isPostSelected={isPostSelected}
+            onBackToList={handleBackToList} 
         />
     );
 }

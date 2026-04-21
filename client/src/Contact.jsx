@@ -1,5 +1,5 @@
 import SingleCardContentLayout from "./SingleCardContentLayout";
-import ContactForm from "./ContactForm_copy";
+import ContactForm from "./ContactForm";
 
 const Contact = ({English}) => {
     if(English)

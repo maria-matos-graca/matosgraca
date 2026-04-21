@@ -3,9 +3,6 @@ import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
-console.log('🔍 [DEBUG] VITE_API_URL:', import.meta.env.VITE_API_URL);
-console.log('🔍 [DEBUG] API_URL final:', API_URL);
-
 const api = axios.create({
   baseURL: `${API_URL}/api`,
   headers: {
@@ -13,14 +10,12 @@ const api = axios.create({
   },
 });
 
-console.log('🔍 [DEBUG] baseURL final:', api.defaults.baseURL);
 
 api.interceptors.request.use((config) => {
   console.log('🚀 [REQUEST]', config.method.toUpperCase(), config.baseURL + config.url);
   return config;
 });
 
-// ✅ Completar o authService com todos os métodos
 export const authService = {
   login: async (username, password) => {
     try {
@@ -31,7 +26,7 @@ export const authService = {
       }
       return response.data;
     } catch (error) {
-      throw error.response?.data || { error: 'Erro na conexão' };
+      throw error.response?.data || { error: 'Erro na ligação' };
     }
   },
 
@@ -55,14 +50,11 @@ export const authService = {
 };
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
-  console.log('🔑 Token exists:', !!token);
-  console.log('🔑 Token value:', token?.substring(0, 50) + '...');
   
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   
-  console.log('🚀 [REQUEST]', config.method.toUpperCase(), config.url);
   return config;
 });
 export default api;

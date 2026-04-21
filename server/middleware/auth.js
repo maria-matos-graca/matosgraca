@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const authenticateJWT = (req, res, next) => {
-  // Busca o token no header Authorization
   const authHeader = req.headers.authorization;
   
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -19,7 +18,6 @@ export const authenticateJWT = (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     
-    // Continua para a próxima função
     next();
   } catch (error) {
     console.error('Erro na autenticação:', error.message);
@@ -31,6 +29,4 @@ export const authenticateJWT = (req, res, next) => {
     return res.status(403).json({ error: 'Token inválido' });
   }
 };
-
-// Exportação padrão também (para compatibilidade)
 export default authenticateJWT;

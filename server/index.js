@@ -40,7 +40,6 @@ app.use((req, res, next) => {
     next();
 });
 
-
 app.use('/api/auth', authRoutes);
 app.use('/api/blog', blogRoutes);
 app.use('/api/gallery', galleryRoutes);
@@ -48,8 +47,6 @@ app.use('/api/admin', adminRoutes);
 app.use('/gallery/images', express.static(path.join(__dirname, 'public/gallery/images')));
 app.use('/gallery/thumbnails', express.static(path.join(__dirname, 'public/gallery/thumbnails')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-
 
 // Health check
 app.get('/api/health', async (req, res) => {
@@ -86,28 +83,47 @@ app.use((err, req, res, next) => {
 (async () => {
     try {
         await db.sequelize.authenticate();
-        console.log(`✅ ${process.env.DB_DIALECT === 'postgres' ? 'PostgreSQL' : 'SQLite'} conectado!`);
+        console.log(`${process.env.DB_DIALECT === 'postgres' ? 'PostgreSQL' : 'SQLite'} conectado!`);
+        
+        await db.sequelize.sync({ alter: true });
+        console.log('Tabelas sincronizadas');
+        
+        const bcrypt = await import('bcryptjs');
+        
+        if (process.env.ADMIN_PASSWORD) {
+            const adminExists = await db.User.findOne({
+                where: { username: process.env.ADMIN_USER || 'admin' }
+            });
+            
+            if (!adminExists) {
+                await db.User.create({
+                    username: process.env.ADMIN_USER || 'admin',
+                    email: process.env.ADMIN_EMAIL || 'admin@blog.com',
+                    password_hash: await bcrypt.hash(process.env.ADMIN_PASSWORD, 12),
+                    role: 'admin'
+                });
+                console.log('Admin criado');
+            } else {
+                console.log('Admin já existe');
+            }
+        } else {
+            console.log('ADMIN_PASSWORD não definida - admin não foi criado');
+        }
         
         app.listen(PORT, () => {
-            console.log('==========================================');
-            console.log('🚀 Servidor iniciado com sucesso!');
-            console.log(`📍 Porta: ${PORT}`);
-            console.log(`💾 Banco: ${process.env.DB_DIALECT === 'postgres' ? 'PostgreSQL' : 'SQLite'}`);
-            console.log(`🌐 Ambiente: ${process.env.NODE_ENV || 'development'}`);
-            console.log(`🔗 URL: http://localhost:${PORT}`);
-            console.log(`❤️ Health: http://localhost:${PORT}/api/health`);
-            console.log('==========================================');
+            console.log(`Servidor iniciado na porta: ${PORT} com base de dados: ${process.env.DB_DIALECT}`);
         });
+        
     } catch (error) {
-        console.error('❌ Erro ao iniciar servidor:', error);
+        console.error('Erro ao iniciar servidor:', error);
         process.exit(1);
     }
 })();
 
 // Graceful shutdown
 process.on('SIGINT', async () => {
-    console.log('\n🛑 A desligar servidor...');
+    console.log('\n A desligar servidor...');
     await db.sequelize.close();
-    console.log('✅ Conexões fechadas');
+    console.log('Conexões fechadas');
     process.exit(0);
 });

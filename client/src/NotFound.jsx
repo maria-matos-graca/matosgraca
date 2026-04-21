@@ -18,7 +18,7 @@ const NotFound = ({English}) => {
             isFirstRender={false}
             label="404 Não Encontrado"
             title1="Página Não Encontrada"
-            content1={<p>Desculpe, a página que você está procurando não existe.</p>}
+            content1={<p>Desculpe, a página que está a procurar não existe.</p>}
             title2="Ups! Nada aqui"
             content2={
             <Link to="/">

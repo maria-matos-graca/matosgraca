@@ -14,7 +14,7 @@ export const create = async (req, res) => {
             content: req.body.content,
             excerpt: req.body.excerpt || null,
             published: req.body.published !== undefined ? req.body.published : true,
-            authorId: req.user?.id || 'admin-id',
+            authorId: req.user?.id || 'admin-id', // isto ainda será mesmo necessário?
             tags: req.body.tags || []
         };
 
@@ -30,7 +30,6 @@ export const create = async (req, res) => {
     }
 };
 
-// Retrieve all blogPosts
 export const findAll = async (req, res) => {
     try {
         // Allow a filter condition via query parameter
@@ -56,12 +55,9 @@ export const findAll = async (req, res) => {
     }
 };
 
-// Find a single blog by ID
 export const findOne = async (req, res) => {
     try {
         const id = req.params.id;
-        
-        // Find blog by primary key
         const data = await BlogPost.findByPk(id, {
             include: [{
                 model: db.User,
@@ -85,12 +81,10 @@ export const findOne = async (req, res) => {
     }
 };
 
-// Update a blog by ID
 export const update = async (req, res) => {
     try {
         const id = req.params.id;
         
-        // Update the blog with the specified ID
         const [num] = await BlogPost.update(req.body, {
             where: { id: id },
         });
@@ -112,12 +106,9 @@ export const update = async (req, res) => {
     }
 };
 
-// Delete a blog by ID
 export const deleteOne = async (req, res) => {
     try {
         const id = req.params.id;
-        
-        // Delete the blog with the specified ID
         const num = await BlogPost.destroy({
             where: { id: id },
         });
@@ -132,7 +123,7 @@ export const deleteOne = async (req, res) => {
             });
         }
     } catch (err) {
-        console.error('Erro ao deletar post:', err);
+        console.error('Erro ao eliminar publicação:', err);
         res.status(500).send({
             message: "Could not delete blog with id=" + req.params.id,
         });
@@ -150,7 +141,7 @@ export const deleteAll = async (req, res) => {
         
         res.send({ message: `${nums} blogPosts were deleted successfully!` });
     } catch (err) {
-        console.error('Erro ao deletar todos:', err);
+        console.error('Erro ao eliminar todos:', err);
         res.status(500).send({
             message: err.message || "Some error occurred while removing all blogPosts.",
         });

@@ -2,25 +2,24 @@ I like working with knowledge, structure, and adherence to rules. However, the b
 
 So, although I'm routine-oriented and like structure, I also enjoy experimenting and doing somewhat strange things. Here are some of the things I've done:
 
-- Adopting a mouse.
-- Exploring a cave, diving into a waterfall, finding a deer antler.
-- Reading in German, French, and Russian.
-- Falling with various types of skates.
-- Playing chess against myself.
-- Playing imaginary billiards with Donald Duck.
-- Riding a donkey. Knitting a scarf halfway.
-- Diving into cold water.
-- Filming a beetle.
-- Repairing plumbing, plastering walls.
-- Painting an oil painting of a loaf of bread.
-- Sliding in the snow.
-
-- Cooking chicken chaumin, sewing machine, pottery
-- Programming and repairing computer hardware
-- Playing cello in an orchestra, writing poetry
-- Writing a doctoral thesis, getting annoyed.
-- Painting on glass and building a rabbit fence.
-- Photographing weeds, vacuuming cobwebs
+- Adopt a rat.
+- Explore a cave, dive into a waterfall, find a deer antler.
+- Fall with various types of rollerskates.
+- Play chess against myself and lose.
+- Play imaginary billiards with Donald Duck.
+- Ride a donkey. Knit a scarf halfway.
+- Dive into cold water.
+- Film a beetle.
+- Repair plumbing, plaster walls.
+- Make oil paintings of food.
+- Slide and fall in the snow.
+- Cook chicken chaumin.
+- Sew a toiletry bag on a sewing machine.
+- Make a ceramic pot.
+- Repair computer and cell phone hardware.
+- Play cello in an orchestra.
+- Paint on glass and make a rabbit fence.
+- Photograph weeds, save a spider.
 
 The list goes on. But what matters is that I keep doing new and strange things.
 
