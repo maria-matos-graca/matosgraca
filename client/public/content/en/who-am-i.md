@@ -1,7 +1,8 @@
 My name is Maria Matos Graça. I live in Porto, Portugal.
 
 I have studied music since childhood. Since I began learning to draw and write, I have never abandoned these practices. Therefore, I have accumulated stacks and stacks of notebooks over the decades.
-<br><br><br>
+
+
 I graduated in Humanities and became deeply interested in Philosophy. That's why I graduated in this field in 2014, with a thesis on music.
 
 My work in Strategic Planning at a creative agency (QA Publicidade) gave me a versatile perspective on planning and creativity in the corporate world.

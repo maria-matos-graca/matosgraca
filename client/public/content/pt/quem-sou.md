@@ -1,7 +1,8 @@
 O meu nome é Maria Matos Graça. Vivo no Porto, em Portugal.
 
 Estudei música desde criança. Desde que aprendi a desenhar e a escrever, nunca abandonei estas práticas. Por isso, acumulei pilhas e pilhas de cadernos ao longo das décadas. 
-<br><br><br>
+
+
 Formei-me em Humanidades e interessei-me profundamente por Filosofia. Por isso licenciei-me e doutorei-me nessa área em 2014, com uma tese sobre música.
 
 O meu trabalho em Planeamento Estratégico numa agência criativa (QA Publicidade) deu-me uma visão versátil sobre planeamento e criatividade no mundo corporativo.
