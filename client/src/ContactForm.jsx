@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import api from './services/auth'; 
 
 export default function ContactForm({English}) {
     const [formData, setFormData] = useState({
@@ -43,28 +44,27 @@ export default function ContactForm({English}) {
         setLoading(true);
         setStatus('');
 
-        try {
-            const response = await fetch('/api/contact', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ...formData,
-                    recipientEmail: 'maria.matos.graca@gmail.com',
-                }),
-            });
-
-            if (response.ok) {
-                setStatus('Message sent successfully!');
-                setFormData({ name: '', email: '', message: '' });
-            } else {
-                setStatus('Failed to send message');
-            }
-        } catch (error) {
-            setStatus('Error sending message:'+ error.message);
-        } finally {
-            setLoading(false);
-        }
-    };       
+ try {
+      const response = await api.post('/contact', {
+        name: formData.name,
+        email: formData.email,
+        message: formData.message
+      });
+      
+      if (response.data.success) {
+        setStatus(English ? 'Message sent successfully!' : 'Mensagem enviada com sucesso!');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setStatus(English ? 'Failed to send message' : 'Falha ao enviar mensagem');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setStatus(English ? 'Error sending message' : 'Erro ao enviar mensagem');
+    } finally {
+      setLoading(false);
+    }
+  };
+    
     if(English)
     return (
         <form onSubmit={handleSubmit}>
@@ -111,7 +111,7 @@ export default function ContactForm({English}) {
         <form onSubmit={handleSubmit}>
             <input
                 type="text"
-                name="nome"
+                name="name"
                 placeholder="O teu Nome"
                 value={formData.name}
                 onChange={handleChange}

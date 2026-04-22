@@ -91,16 +91,6 @@ function App() {
             }
           </h1>
 </div>
-
-       {/* Overlay mobile com eclipse */}
-<div className="astro_quote mobile-only">
-    <div className="moon mobile-only"></div>
-    <div className="planet-shade mobile-only"></div>
-</div>
-
-
-
-        <div className={isFirstRender ? "is-initial-load" : ""}>
           <div className="languageToggle">
             <label className="switchLan">
               {English ? 
@@ -116,6 +106,15 @@ function App() {
               <div className="slider round"></div>
             </label>
           </div>
+<div className="astro_quote mobile-only">
+    <div className="moon mobile-only"></div>
+    <div className="planet-shade mobile-only"></div>
+</div>
+
+
+
+        <div className={isFirstRender ? "is-initial-load" : ""}>
+
         </div>
         <div className="header">
                     
@@ -157,9 +156,10 @@ function App() {
               </Routes>
             </div>
           </div>
+                <Footer English={English} />
         </div>
       </Router>
-      <Footer English={English} />
+
     </>
   );
 }

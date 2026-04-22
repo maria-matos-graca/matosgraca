@@ -93,10 +93,10 @@ const EditImageModal = ({ image, onClose, onUpdate, English }) => {
                                 <label>{English ? 'Category' : 'Categoria'}</label>
                                 <select value={category} onChange={(e) => setCategory(e.target.value)}>
                                     <option value="general">{English ? 'General' : 'Geral'}</option>
-                                    <option value="portfolio">{English ? 'Portfolio' : 'Portfólio'}</option>
+                                    <option value="art">{English ? 'Art' : 'Arte'}</option>
                                     <option value="personal">{English ? 'Personal' : 'Pessoal'}</option>
-                                    <option value="travel">{English ? 'Travel' : 'Viagens'}</option>
-                                    <option value="featured">{English ? 'Featured' : 'Destaque'}</option>
+                                    <option value="tech">{English ? 'Tech' : 'Tecnologia'}</option>
+                                    <option value="glimpses">{English ? 'Glimpsesd' : 'Vislumbres'}</option>
                                 </select>
                             </div>
                             

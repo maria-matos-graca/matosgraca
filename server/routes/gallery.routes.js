@@ -11,6 +11,18 @@ const __dirname = path.dirname(__filename);
 
 const router = express.Router();
 
+// Função auxiliar para obter URL base com HTTPS
+const getBaseUrl = (req) => {
+  const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+  const host = req.get('host');
+  
+  if (process.env.NODE_ENV === 'production') {
+    return `https://${host}`;
+  }
+  
+  return `${protocol}://${host}`;
+};
+
 const ensureDir = (dir) => {
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
@@ -70,10 +82,14 @@ const upload = multer({
     fileFilter: fileFilter
 });
 
+// ==================== ROTAS ====================
+
+// Test route
 router.get('/test', (req, res) => {
     res.json({ message: 'Gallery routes are working!' });
 });
 
+// Get categories
 router.get('/categories', async (req, res) => {
     console.log('GET /categories - Fetching categories');
     try {
@@ -109,39 +125,7 @@ router.get('/categories', async (req, res) => {
     }
 });
 
-router.post('/categories', authenticateJWT, async (req, res) => {
-    console.log('POST /categories - Body:', req.body);
-    try {
-        const { name } = req.body;
-        
-        if (!name || name.trim() === '') {
-            return res.status(400).json({ 
-                success: false, 
-                error: 'Category name is required' 
-            });
-        }
-        
-        const categoryName = name.trim().toLowerCase();
-        console.log('Adding category:', categoryName);
-        
-
-        const existingCategory = await req.db.GalleryImage.findOne({
-            where: { category: categoryName }
-        });
-         
-        res.json({ 
-            success: true, 
-            category: categoryName,
-            message: 'Category added successfully' 
-        });
-    } catch (error) {
-        console.error('Error adding category:', error);
-        res.status(500).json({ 
-            success: false, 
-            error: error.message 
-        });
-    }
-});
+// Delete category
 router.delete('/categories/:name', authenticateJWT, async (req, res) => {
     console.log('DELETE /categories/:name - Category:', req.params.name);
     try {
@@ -153,7 +137,8 @@ router.delete('/categories/:name', authenticateJWT, async (req, res) => {
                 error: 'Cannot delete "general" category' 
             });
         }
-         const [updatedCount] = await req.db.GalleryImage.update(
+        
+        const [updatedCount] = await req.db.GalleryImage.update(
             { category: 'general' },
             { where: { category: name } }
         );
@@ -173,6 +158,7 @@ router.delete('/categories/:name', authenticateJWT, async (req, res) => {
     }
 });
 
+// Get all images
 router.get('/', async (req, res) => {
     console.log('GET / - Fetching images, query:', req.query);
     try {
@@ -192,7 +178,7 @@ router.get('/', async (req, res) => {
             offset: offset
         });
         
-        const baseUrl = `${req.protocol}://${req.get('host')}`;
+        const baseUrl = getBaseUrl(req);
         const imagesWithUrl = rows.map(img => ({
             ...img.toJSON(),
             url: `${baseUrl}${img.path}`
@@ -212,6 +198,7 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Upload image
 router.post('/upload', authenticateJWT, upload.single('image'), async (req, res) => {
     console.log('=== UPLOAD ROUTE HIT ===');
     console.log('File:', req.file);
@@ -263,13 +250,12 @@ router.post('/upload', authenticateJWT, upload.single('image'), async (req, res)
             alt_text: alt_text || req.file.originalname,
             caption: caption || '',
             description: description || '',
-            category: category || 'general',
-            created_by: req.user.id
+            category: category || 'general'
         };
 
         const image = await req.db.GalleryImage.create(imageData);
         
-        const baseUrl = `${req.protocol}://${req.get('host')}`;
+        const baseUrl = getBaseUrl(req);
         
         res.status(201).json({
             success: true,
@@ -285,7 +271,7 @@ router.post('/upload', authenticateJWT, upload.single('image'), async (req, res)
     }
 });
 
-// GET /api/gallery/:id - imagem por ID
+// Get image by ID
 router.get('/:id', async (req, res) => {
     try {
         const image = await req.db.GalleryImage.findByPk(req.params.id);
@@ -294,7 +280,7 @@ router.get('/:id', async (req, res) => {
             return res.status(404).json({ error: 'Imagem não encontrada' });
         }
         
-        const baseUrl = `${req.protocol}://${req.get('host')}`;
+        const baseUrl = getBaseUrl(req);
         res.json({
             ...image.toJSON(),
             url: `${baseUrl}${image.path}`
@@ -305,7 +291,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// PUT /api/gallery/:id - actualizar imagem
+// Update image
 router.put('/:id', authenticateJWT, async (req, res) => {
     try {
         const { alt_text, caption, description, category, featured } = req.body;
@@ -324,7 +310,7 @@ router.put('/:id', authenticateJWT, async (req, res) => {
             featured: featured !== undefined ? featured : image.featured
         });
         
-        const baseUrl = `${req.protocol}://${req.get('host')}`;
+        const baseUrl = getBaseUrl(req);
         res.json({
             ...image.toJSON(),
             url: `${baseUrl}${image.path}`
@@ -335,7 +321,7 @@ router.put('/:id', authenticateJWT, async (req, res) => {
     }
 });
 
-// PATCH /api/gallery/:id/category - actualizar categoria de uma imagem
+// Update image category
 router.patch('/:id/category', authenticateJWT, async (req, res) => {
     console.log('PATCH /:id/category - ID:', req.params.id);
     try {
@@ -361,11 +347,13 @@ router.patch('/:id/category', authenticateJWT, async (req, res) => {
         await image.update({ category: category.trim().toLowerCase() });
         
         console.log('Image category updated:', image.id);
+        
+        const baseUrl = getBaseUrl(req);
         res.json({ 
             success: true, 
             image: {
                 ...image.toJSON(),
-                url: `${req.protocol}://${req.get('host')}${image.path}`
+                url: `${baseUrl}${image.path}`
             }
         });
     } catch (error) {
@@ -377,7 +365,7 @@ router.patch('/:id/category', authenticateJWT, async (req, res) => {
     }
 });
 
-// DELETE /api/gallery/:id - Remover imagem
+// Delete image
 router.delete('/:id', authenticateJWT, async (req, res) => {
     console.log('DELETE /:id - ID:', req.params.id);
     try {

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
+import MobileWarning from './MobileWarning';
 
 const MobileMenu = ({ English, setLanguageToggle, English: isEnglish }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -52,9 +53,10 @@ const MobileMenu = ({ English, setLanguageToggle, English: isEnglish }) => {
                 {/* Citação na barra */}
                 <div className="mobile-quote">
                     <div className="learn">
-                        {"Ancora imparo"}
+                        {` Ancora imparo`}
                     </div>
-                    <div className="author">
+                    <div className="author" style={{fontSize: '15px'}}>
+                        {English? ` Ainda estou a aprender ` : ` I am still learning `} 
                     </div>
                 </div>
                 
@@ -104,11 +106,15 @@ const MobileMenu = ({ English, setLanguageToggle, English: isEnglish }) => {
                     <li><Link to="/about" onClick={closeMenu}>{English ? 'About' : 'Sobre'}</Link></li>
                     <li><Link to="/gallerypage" onClick={closeMenu}>{English ? 'Gallery' : 'Galeria'}</Link></li>
                     <li><Link to="/contact" onClick={closeMenu}>{English ? 'Contact' : 'Contato'}</Link></li>
+                    <li><Link to="/blog" onClick={closeMenu}>{'Blog'}</Link></li>
                 </ul>
             </div>
             
             <div className={`menu-overlay ${isOpen ? 'open' : ''}`} onClick={closeMenu}></div></div>
+            <MobileWarning />
         </>
+
+      
     );
 };
 

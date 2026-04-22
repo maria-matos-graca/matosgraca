@@ -49,7 +49,8 @@ Thumbs.db
 *.seed
 *.pid.lock" > .gitignore
 
-# Imagens e mídia
+# Imagens e pdf
+*.pdf
 *.jpg
 *.jpeg
 *.gif

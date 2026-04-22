@@ -8,16 +8,6 @@ const Home = ({English}) => {
     const [isPostSelected, setIsPostSelected] = useState(selectedPost);
     const { data: blogs, isPending, error } = useFetch('/blog');
     
-    const formatDate = (dateString) => {
-        if (!dateString) return 'Data desconhecida';
-        const date = new Date(dateString);
-        return date.toLocaleDateString(English ? 'en-US' : 'pt-PT', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
-        });
-    };
-    
     useEffect(() => {
         if (blogs && blogs.length > 0 && !selectedPost) {
             setSelectedPost(blogs[0]);
@@ -47,9 +37,7 @@ const Home = ({English}) => {
                     <h3 style={{margin: '0 0 5px 0', fontSize: '18px'}}>
                         {post.title || 'Sem título'}
                     </h3>
-                    <p style={{margin: 0, fontSize: '12px', color: '#666'}}>
-                        {formatDate(post.createdAt || post.created_at || post.date)}
-                    </p>
+
                     <p style={{margin: '5px 0 0 0', fontSize: '14px', color: '#888'}}>
                         {(post.content || post.text || '').substring(0, 80)}...
                     </p>
@@ -76,9 +64,7 @@ const Home = ({English}) => {
 
     const selectedPostContent = selectedPost ? (
         <div className="selected-post">
-            <p style={{fontSize: '14px', color: '#666', marginBottom: '20px'}}>
-                {formatDate(selectedPost.createdAt || selectedPost.created_at || selectedPost.date)}
-            </p>
+
             <div className="selected-post-content">
                 {(selectedPost.content || selectedPost.text || '').split('\n').map((paragraph, idx) => (
                     paragraph.trim() && <p key={idx}>{paragraph}</p>

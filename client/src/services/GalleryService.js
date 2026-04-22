@@ -16,6 +16,16 @@ const GalleryService = {
         return response.data;
     },
     
+    getImageById: async (id) => {
+        const response = await api.get(`/gallery/${id}`);
+        return response.data;
+    },
+    
+    updateImage: async (id, data) => {
+        const response = await api.put(`/gallery/${id}`, data);
+        return response.data;
+    },
+    
     deleteImage: async (id) => {
         const response = await api.delete(`/gallery/${id}`);
         return response.data;

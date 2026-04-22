@@ -32,7 +32,8 @@ const Gallery = ({ English }) => {
     }
 
     const content = (
-        <div className="gallery-container">
+        <div className="container">
+            {/*<div className="container">*/}
             <div className="gallery-filters">
                 <button 
                     className={category === 'all' ? 'active' : ''} 
@@ -50,7 +51,7 @@ const Gallery = ({ English }) => {
                     className={category === 'art' ? 'active' : ''} 
                     onClick={() => setCategory('art')}
                 >
-                    {English ? 'Art' : 'Arte'}
+                    {English ? 'My Art' : 'Arte minha'}
                 </button>
                                 <button 
                     className={category === 'personal' ? 'active' : ''} 
@@ -62,7 +63,7 @@ const Gallery = ({ English }) => {
                     className={category === 'tech' ? 'active' : ''} 
                     onClick={() => setCategory('tech')}
                 >
-                    {English ? 'Tech' : 'Tech'}
+                    {'Tech metaphors'}
                 </button>
 
             </div>

@@ -2,7 +2,7 @@ import Gallery from "./components/Gallery.jsx"
 
 const GalleryPage = ({English}) => {
     return (
-       <div className="project-card-wide">
+       <div className="project-card-gallery">
             <Gallery English = {English} />
             </div>
     );

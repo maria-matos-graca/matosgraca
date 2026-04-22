@@ -2,10 +2,7 @@
 import express from 'express';
 import cors from 'cors';
 import loadEnv from './config/env.js';
-
-// Carregar variáveis de ambiente ANTES de tudo
-loadEnv();
-
+import { Resend } from 'resend';
 import db from './models/index.js';
 import authRoutes from './routes/auth.routes.js';
 import adminRoutes from './routes/admin.routes.js';
@@ -13,6 +10,11 @@ import blogRoutes from './routes/blog.routes.js';
 import galleryRoutes from './routes/gallery.routes.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
+
+// Carregar variáveis de ambiente ANTES de tudo
+loadEnv();
+
+const resend = new Resend(process.env.EMAIL_API_KEY);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -48,7 +50,30 @@ app.use('/gallery/images', express.static(path.join(__dirname, 'public/gallery/i
 app.use('/gallery/thumbnails', express.static(path.join(__dirname, 'public/gallery/thumbnails')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Health check
+app.post('/api/contact', async (req, res) => {
+  try {
+    const { name, email, message } = req.body;
+    
+    const { data, error } = await resend.emails.send({
+      from: 'onboarding@resend.dev',
+      to: [process.env.EMAIL_TO || 'maria.matos.graca@gmail.com'],
+      reply_to: email,
+      subject: `Contato do Blog: ${name}`,
+      html: `<p><strong>Nome:</strong> ${name}</p>
+             <p><strong>Email:</strong> ${email}</p>
+             <p><strong>Mensagem:</strong></p>
+             <p>${message}</p>`,
+    });
+    
+    if (error) throw error;
+    
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Erro Resend:', error);
+    res.status(500).json({ error: 'Erro ao enviar mensagem' });
+  }
+});
+
 app.get('/api/health', async (req, res) => {
     try {
         await db.sequelize.authenticate();

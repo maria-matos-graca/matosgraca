@@ -4,17 +4,15 @@ import { Link } from 'react-router-dom';
 
 const Blog = ({ English }) => {
     const { data: blogs, isPending, error } = useFetch('/blog');
-    
     console.log('Dados recebidos:', blogs);
     console.log('Carregando:', isPending);
     console.log('Erro:', error);
 
-    if (isPending) return <div>Loading...</div>;
-    if (error) return <div>Erro: {error}</div>;
-    if (!blogs) return <div>Nenhum dado encontrado</div>;
-    if (!Array.isArray(blogs)) return <div>Formato de dados inválido</div>;
-    if (blogs.length === 0) return <div>Nenhum post encontrado</div>;
-
+    if (isPending) return <div className="messages">Loading...</div>;
+    if (error) return <div className="messages">Erro: {error}</div>;
+    if (!blogs) return <div className="messages">Nenhum dado encontrado</div>;
+    if (!Array.isArray(blogs)) return <div className="messages">Formato de dados inválido</div>;
+    if (blogs.length === 0) return <div>Nenhum post encontrado</div>; 
     const postCount = blogs.length;
 
     return (
