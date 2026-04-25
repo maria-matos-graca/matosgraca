@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import ContentLayout from "./ContentLayout";
-import useFetch from "./UseFetch";
+import ContentLayout from "./components/ContentLayout";
+import useFetch from "./components/UseFetch";
 import { Link } from 'react-router-dom';
 
 const Home = ({English}) => {
@@ -26,7 +26,7 @@ const Home = ({English}) => {
     const blogListContent = (
         <div className="blog-list-home">
             {isPending && <p>{English ? 'Loading posts...' : 'A carregar publicações...'}</p>}
-            {error && <p style={{color: 'white'}}>{English ? 'Error loading posts' : 'Erro ao carregar publicações'}</p>}
+            {error && <p>{English ? 'Error loading posts' : 'Erro ao carregar publicações'}</p>}
             {blogs && blogs.length === 0 && <p>{English ? 'No posts yet.' : 'Ainda não há publicações.'}</p>}
             {blogs && blogs.slice(0,4).map(post => (
                 <div 
@@ -78,7 +78,6 @@ const Home = ({English}) => {
                     textDecoration: 'none'
                 }}
             >
-                <div className="read-full-post" style={{color: "black"}} > {English ? 'Read full post →' : 'Ler publicação completa →'}</div> 
             </Link>
         </div>
     ) : (
@@ -105,7 +104,6 @@ const Home = ({English}) => {
                     fontSize: '14px',
                 }}
             >
-                {English && blogs? 'Read more' : blogs? 'Ler mais' : ""}
             </Link>
         </div>
     );

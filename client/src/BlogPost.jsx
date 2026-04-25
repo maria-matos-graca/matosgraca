@@ -96,13 +96,13 @@ const BlogPost = ({ English }) => {
         </script>
       </Helmet>
       
-      <div className="container">
+     
        
         
         <article>
          
          
-          <div className="project-card-wide" style={{padding:'4rem'}}>  <div className="section-label" style={{ fontSize: '24px', fontWeight: 'bold'}}>{postTitle}</div>
+          <div className="project-card-blogpost">  <div className="section-label" style={{ fontSize: '24px', fontWeight: 'bold'}}>{postTitle}</div>
             <div style={{ whiteSpace: 'pre-wrap' }}>
               {postContent.split('\n').map((paragraph, index) => (
                 paragraph.trim() && <p key={index}>{paragraph}</p>
@@ -125,7 +125,6 @@ const BlogPost = ({ English }) => {
         </button>
           </div>
         </article>
-      </div>
     </>
   );
 };

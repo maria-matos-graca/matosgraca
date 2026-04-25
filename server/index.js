@@ -50,6 +50,7 @@ app.use('/gallery/images', express.static(path.join(__dirname, 'public/gallery/i
 app.use('/gallery/thumbnails', express.static(path.join(__dirname, 'public/gallery/thumbnails')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+
 app.post('/api/contact', async (req, res) => {
   try {
     const { name, email, message } = req.body;
@@ -73,6 +74,9 @@ app.post('/api/contact', async (req, res) => {
     res.status(500).json({ error: 'Erro ao enviar mensagem' });
   }
 });
+
+
+
 
 app.get('/api/health', async (req, res) => {
     try {

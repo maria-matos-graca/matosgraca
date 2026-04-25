@@ -31,7 +31,6 @@ const Login = () => {
   };
 
   return (
-    <div style={styles.container}>
       <div style={styles.loginBox}>
         <h2>Área Administrativa</h2>
         <form onSubmit={handleSubmit} style={styles.form}>
@@ -70,18 +69,11 @@ const Login = () => {
           </button>
         </form>
       </div>
-    </div>
   );
 };
 
 const styles = {
-  container: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '80vh',
-    padding: '20px'
-  },
+
   loginBox: {
     background: '#fff',
     padding: '40px',

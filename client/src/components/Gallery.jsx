@@ -32,8 +32,8 @@ const Gallery = ({ English }) => {
     }
 
     const content = (
-        <div className="container">
-            {/*<div className="container">*/}
+        <div>
+            <h3> {English? 'Gallery':'Galeria'}</h3>
             <div className="gallery-filters">
                 <button 
                     className={category === 'all' ? 'active' : ''} 

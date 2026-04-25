@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Home from './Home.jsx';
+import MobileLandingPage from './MobileLandingPage.jsx';
 import Navbar from './Navbar.jsx';
 import Login from './Login.jsx';
 import About from './About.jsx';
@@ -22,6 +23,7 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   const [English, setLanguageToggle] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const [isFirstRender, setIsFirstRender] = useState(true);
   
   useEffect(() => {
@@ -30,6 +32,17 @@ function App() {
     }, 4000);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+
   
   return (
     <>
@@ -73,24 +86,27 @@ function App() {
         English={English} 
         setLanguageToggle={setLanguageToggle}
         />
-        <div className="astro_quote desktop-only">
-        <div className="moon"></div>
-        <div className="planet-shade"></div>
+        <div className="App">
+        <div className="astro_quote desktop_only">
+        <div className="moon desktop_only"></div>
+        <div className="planet-shade desktop_only"></div>
           <h1>
             {English ?
               <div className={isFirstRender ? "is-initial-load" : ""}>
-                <div className="quote">
+                <div className="quote desktop_only">
                   <div className="learn">Ancora imparo</div>
                   <div className="author">"I'm still learning" - Michelangelo at age 87</div>
                 </div>
               </div> :
-              <div className="quote">
+              <div className="quote desktop_only">
                 <div className="learn">Ancora imparo</div>
                 <div className="author">"Ainda estou a aprender" - Miguelângelo aos 87 anos</div>
               </div>
             }
           </h1>
 </div>
+
+<div className={isFirstRender ? "is-initial-load" : ""}>
           <div className="languageToggle">
             <label className="switchLan">
               {English ? 
@@ -105,15 +121,8 @@ function App() {
               />
               <div className="slider round"></div>
             </label>
-          </div>
-<div className="astro_quote mobile-only">
-    <div className="moon mobile-only"></div>
-    <div className="planet-shade mobile-only"></div>
-</div>
+          </div>      
 
-
-
-        <div className={isFirstRender ? "is-initial-load" : ""}>
 
         </div>
         <div className="header">
@@ -122,21 +131,24 @@ function App() {
 
         </div>
    
-        <div className="App">
+
           <div className="content">
+              
             <div className="background"></div>
-            <div className={isFirstRender ? "is-initial-load" : ""}>
-              <Navbar English={English} />
+            <div className={isFirstRender ? "is-initial-load" : "else"}>
+              <Navbar English={English} / >
+             
               
               <Routes>
-
+                 
                 <Route path="/admingallery" 
                   element={
                    <ProtectedRoute>
                       <AdminGallery English={English} />
                    </ProtectedRoute>  } />
                 {/* Rotas públicas */}
-                <Route path="/" element={<Home English={English} />} />
+                <Route path="/" element={ isMobile ? <MobileLandingPage English={English} />:<Home English={English} />} />
+                <Route path="/Home" element={<Home English={English} />} />
                 <Route path="/about" element={<About English={English} />} />
                 <Route path="/gallerypage" element={<GalleryPage English={English} />} />
                 <Route path="/contact" element={<Contact English={English} />} />
@@ -154,9 +166,10 @@ function App() {
                 
                 <Route path="*" element={<NotFound English={English} />} />
               </Routes>
-            </div>
+            
+            </div><Footer English={English} />
           </div>
-                <Footer English={English} />
+                
         </div>
       </Router>
 

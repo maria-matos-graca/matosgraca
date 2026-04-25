@@ -1,5 +1,5 @@
-import SingleCardContentLayout from "./SingleCardContentLayout";
-import ContactForm from "./ContactForm";
+import SingleCardContentLayout from "./components/SingleCardContentLayout";
+import ContactForm from "./components/ContactForm";
 
 const Contact = ({English}) => {
     if(English)
@@ -7,7 +7,6 @@ const Contact = ({English}) => {
         <SingleCardContentLayout
             isFirstRender={false}
             label="Contact"
-            title="Get in Touch"
             content={
                 ContactForm({English})
             }
@@ -18,7 +17,6 @@ const Contact = ({English}) => {
         <SingleCardContentLayout
             isFirstRender={false}
             label="Contacto"
-            title="Contacta-me"
             content={
                 ContactForm({English})
             }

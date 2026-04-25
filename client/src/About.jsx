@@ -1,4 +1,4 @@
-import ContentLayout from "./ContentLayout.jsx";
+import ContentLayout from "./components/ContentLayout.jsx";
 import TextFile from "./components/TextFile.jsx";
 import profilePhoto from "./assets/foto-perfil.jpg";
 

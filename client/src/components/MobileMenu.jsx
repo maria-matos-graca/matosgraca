@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
 import MobileWarning from './MobileWarning';
 
 const MobileMenu = ({ English, setLanguageToggle, English: isEnglish }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [sliderWidth, setSliderWidth] = useState(50);
     const [ballSize, setBallSize] = useState(22);
+    const menuRef = useRef(null);
+    const hamburgerRef = useRef(null);
     
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -20,7 +21,29 @@ const MobileMenu = ({ English, setLanguageToggle, English: isEnglish }) => {
         setLanguageToggle(!isEnglish);
     };
 
-     useEffect(() => {
+
+    //estudar isto melhor:
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (isOpen && 
+                menuRef.current && 
+                !menuRef.current.contains(event.target) &&
+                hamburgerRef.current &&
+                !hamburgerRef.current.contains(event.target)) {
+                closeMenu();
+            }
+        };
+
+        // Adiciona o event listener
+        document.addEventListener('mousedown', handleClickOutside);
+        
+        // Remove o event listener na limpeza
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isOpen]);
+
+    useEffect(() => {
         const updateSize = () => {
             const width = window.innerWidth;
             if (width <= 480) {
@@ -39,12 +62,14 @@ const MobileMenu = ({ English, setLanguageToggle, English: isEnglish }) => {
     
     const translateDistance = sliderWidth - ballSize - 4;
     
-    
     return (
         <>
-            <div className="mobile-only mobile-header">
-            <div className="mobile-header">
-                <button className="hamburger-menu" onClick={toggleMenu}>
+            <div className="mobile_only mobile-header">
+                <button 
+                    className="hamburger-menu" 
+                    onClick={toggleMenu}
+                    ref={hamburgerRef}
+                >
                     <div className="hamburger-line"></div>
                     <div className="hamburger-line"></div>
                     <div className="hamburger-line"></div>
@@ -53,16 +78,12 @@ const MobileMenu = ({ English, setLanguageToggle, English: isEnglish }) => {
                 {/* Citação na barra */}
                 <div className="mobile-quote">
                     <div className="learn">
-                        {` Ancora imparo`}
-                    </div>
-                    <div className="author" style={{fontSize: '15px'}}>
-                        {English? ` Ainda estou a aprender ` : ` I am still learning `} 
+                        {'matosgraca.com'}
                     </div>
                 </div>
                 
                 <div className="mobile-toggle">
-
-                   <label className="switchLan">
+                    <label className="switchLan">
                         <h3>{isEnglish ? "PT" : "EN"}</h3>
                     </label>
                     <label className="switch">
@@ -97,24 +118,22 @@ const MobileMenu = ({ English, setLanguageToggle, English: isEnglish }) => {
                         </div>
                     </label>
                 </div>
-            </div>
 
-            
-            <div className={`mobile-nav ${isOpen ? 'open' : ''}`}>
-                <ul>
-                    <li><Link to="/" onClick={closeMenu}>{English ? 'Home' : 'Início'}</Link></li>
-                    <li><Link to="/about" onClick={closeMenu}>{English ? 'About' : 'Sobre'}</Link></li>
-                    <li><Link to="/gallerypage" onClick={closeMenu}>{English ? 'Gallery' : 'Galeria'}</Link></li>
-                    <li><Link to="/contact" onClick={closeMenu}>{English ? 'Contact' : 'Contato'}</Link></li>
-                    <li><Link to="/blog" onClick={closeMenu}>{'Blog'}</Link></li>
-                </ul>
+                <div 
+                    className={`mobile-nav ${isOpen ? 'open' : ''}`}
+                    ref={menuRef}
+                >
+                    <ul>
+                        <li><Link to="/home" onClick={closeMenu}>{English ? 'Home' : 'Início'}</Link></li>
+                        <li><Link to="/about" onClick={closeMenu}>{English ? 'About' : 'Sobre'}</Link></li>
+                        <li><Link to="/gallerypage" onClick={closeMenu}>{English ? 'Gallery' : 'Galeria'}</Link></li>
+                        <li><Link to="/contact" onClick={closeMenu}>{English ? 'Contact' : 'Contacto'}</Link></li>
+                    </ul>
+                </div>
+                
+                <div className={`menu-overlay ${isOpen ? 'open' : ''}`} onClick={closeMenu}></div>
             </div>
-            
-            <div className={`menu-overlay ${isOpen ? 'open' : ''}`} onClick={closeMenu}></div></div>
-            <MobileWarning />
         </>
-
-      
     );
 };
 

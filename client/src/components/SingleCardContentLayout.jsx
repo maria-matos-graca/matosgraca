@@ -1,15 +1,14 @@
 const SingleCardContentLayout = ({title, content }) => {
     return (
         
-            <div className="project-single-card">
+            <div className="project-card">
                 <h3 style={
                 {    textAlign:'center'
 
                 }}>{title}</h3>
-                <h2>{content}</h2>
+                {content}
             </div>
-            
-        
+                   
     );
 }
 

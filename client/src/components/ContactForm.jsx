@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import api from './services/auth'; 
+import api from '../services/auth'; 
 
 export default function ContactForm({English}) {
     const [formData, setFormData] = useState({
@@ -68,6 +68,7 @@ export default function ContactForm({English}) {
     if(English)
     return (
         <form onSubmit={handleSubmit}>
+            <h3>Get in touch</h3>
             <input
                 type="text"
                 name="name"
@@ -109,6 +110,7 @@ export default function ContactForm({English}) {
     )
     return (
         <form onSubmit={handleSubmit}>
+        <h3>Contacta-me</h3>
             <input
                 type="text"
                 name="name"

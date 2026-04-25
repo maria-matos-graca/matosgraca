@@ -15,9 +15,6 @@ const Footer = ({ English }) => {
                     © {currentYear} Matos Graça. 
                     {English ? ' All rights reserved.' : ' Todos os direitos reservados.'}
                 </p>
-                <p className="credits">
-                    {English ? 'Built with React' : 'Construído com React'}
-                </p>
             </div>
         </footer>
     );

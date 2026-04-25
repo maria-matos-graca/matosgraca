@@ -37,7 +37,7 @@ const ContentLayout = ({title1, content1, title2, content2, isPostSelected = fal
     
    if (isMobile) {
     return (
-        <main className="container">
+        
             <div className="project-grid">
                 {!showPost && (
                     <div className="project-card">
@@ -58,12 +58,11 @@ const ContentLayout = ({title1, content1, title2, content2, isPostSelected = fal
                     </div>
                 )}
             </div>
-        </main>
+    
     );
 }
     
     return (
-        <main className="container">
             <div className="project-grid">
                 <div className="project-card">
                     <h3>{title1}</h3>
@@ -74,7 +73,6 @@ const ContentLayout = ({title1, content1, title2, content2, isPostSelected = fal
                     {content2}
                 </div>
             </div>
-        </main>
     );
 };
 

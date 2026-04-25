@@ -1,4 +1,4 @@
-import ContentLayout from './ContentLayout';
+import ContentLayout from './components/ContentLayout';
 import { Link } from 'react-router-dom';
 
 const NotFound = ({English}) => {

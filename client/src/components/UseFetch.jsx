@@ -1,5 +1,5 @@
 // UseFetch.jsx
-import api from './services/auth';
+import api from '../services/auth';
 import { useState, useEffect } from 'react';
 
 const useFetch = (url) => {

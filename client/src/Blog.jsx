@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import useFetch from "./UseFetch";
+import useFetch from "./components/UseFetch";
 import { Link } from 'react-router-dom';
 
 const Blog = ({ English }) => {
@@ -60,10 +60,9 @@ const Blog = ({ English }) => {
                 </script>
             </Helmet>
             
-            <main className="container">  
-                        <div className="blog-list">
+                        <div className="blog-list"><div className="project-card">
                             {blogs.map(post => (
-                                <div className="project-card" key={post.id}>
+                                <div className="project-card-blogpost" key={post.id}>
                                         <Link to={`/blog/${post.id}`}>
                                             <p style={{
                                                 fontSize: '15px', 
@@ -87,9 +86,9 @@ const Blog = ({ English }) => {
                                 
                             ))}
                         </div> 
-              
+              </div>
                
-            </main>
+         
         </>
     );
 }
